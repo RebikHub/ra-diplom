@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import headerLogo from '../img/header-logo.png';
 
 export default function Header() {
@@ -24,17 +24,17 @@ export default function Header() {
             </Link>
             <div className="collapase navbar-collapse" id="navbarMain">
               <ul className="navbar-nav mr-auto">
-                <li className="nav-item active">
-                  <Link className="nav-link" to={"/"}>Главная</Link>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to={"/"}>Главная</NavLink>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/catalog"}>Каталог</Link>
+                  <NavLink className="nav-link" to={"/catalog"}>Каталог</NavLink>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/about"}>О магазине</Link>
+                  <NavLink className="nav-link" to={"/about"}>О магазине</NavLink>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/contacts"}>Контакты</Link>
+                  <NavLink className="nav-link" to={"/contacts"}>Контакты</NavLink>
                 </li>
               </ul>
               <div>
@@ -52,7 +52,7 @@ export default function Header() {
               </div>
             </div>
           </nav>
-          
+
         </div>
       </div>
     </header>

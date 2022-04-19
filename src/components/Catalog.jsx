@@ -1,10 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { getItems } from "../store/middleware";
 import Preloader from "./Preloader";
 import ProductCard from "./ProductCard";
 
 export default function Catalog(props) {
-  const { loading, items } = useSelector((state) => state.slices);
+  const { loading, items, categories } = useSelector((state) => state.listSlices);
+  const dispatch = useDispatch();
+  function handleGetItems(id) {
+    if (id) {
+      return dispatch(getItems(id));
+    }
+    return dispatch(getItems());
+  }
 
   return (
     <section className="catalog">
@@ -12,20 +21,16 @@ export default function Catalog(props) {
       {props.children}
       <ul className="catalog-categories nav justify-content-center">
         <li className="nav-item">
-          <a className="nav-link active" href="#">Все</a>
+          <NavLink className="nav-link" to="/catalog">Все</NavLink>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Женская обувь</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Мужская обувь</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Обувь унисекс</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#">Детская обувь</a>
-        </li>
+        {categories.map((el) => (
+          <li className="nav-item" key={el.id}>
+            <NavLink className="nav-link" 
+              onClick={() => handleGetItems(el.id)} to="/catalog">
+              {el.title}
+            </NavLink>
+          </li>
+        ))}
       </ul>
 
       <div className="row">

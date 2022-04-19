@@ -311,3 +311,7 @@ h2, .h2 {
 .top-sales > p {
   text-align: center;
 }
+
+.card-text {
+  height: 50px;
+}

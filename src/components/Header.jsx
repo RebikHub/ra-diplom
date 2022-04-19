@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import headerLogo from '../img/header-logo.png';
 
-export default function BosaHeader() {
+export default function Header() {
   const [inputForm, setInputForm] = useState('invisible');
-
+  const navigate = useNavigate();
   function toggleSearch() {
     if (inputForm === '') {
       setInputForm('invisible');
@@ -16,9 +17,10 @@ export default function BosaHeader() {
     <header className="container">
       <div className="row">
         <div className="col">
+
           <nav className="navbar navbar-expand-sm navbar-light bg-light">
             <Link className="navbar-brand" to={"/"}>
-            <img src="./img/header-logo.png" alt="Bosa Noga"/>
+              <img src={headerLogo} alt="Bosa Noga"/>
             </Link>
             <div className="collapase navbar-collapse" id="navbarMain">
               <ul className="navbar-nav mr-auto">
@@ -39,7 +41,7 @@ export default function BosaHeader() {
                 <div className="header-controls-pics">
                   <div data-id="search-expander" onClick={toggleSearch} className="header-controls-pic header-controls-search"></div>
                   {/* Do programmatic navigation on click to /cart.html */}
-                  <div className="header-controls-pic header-controls-cart">
+                  <div className="header-controls-pic header-controls-cart" onClick={() => navigate('/basket')}>
                     <div className="header-controls-cart-full">1</div>
                     <div className="header-controls-cart-menu"></div>
                   </div>
@@ -50,6 +52,7 @@ export default function BosaHeader() {
               </div>
             </div>
           </nav>
+          
         </div>
       </div>
     </header>

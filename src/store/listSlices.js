@@ -4,6 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const slices = createSlice({
   name: 'listSlices',
   initialState: {
+    items: [],
+    topSales: [],
     loading: false,
     error: null
   },

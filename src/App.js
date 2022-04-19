@@ -1,11 +1,16 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
+import BosaCatalog from "./components/BosaCatalog";
+import BosaHeaderFooter from "./components/BosaHeaderFooter";
+import BosaMainLoaded from "./components/BosaMainLoaded";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      Hello World!!!
-    </div>
+    <Routes>
+      <Route path="/" element={<BosaHeaderFooter/>}>
+        <Route index element={<BosaMainLoaded/>}/>
+        <Route path="/catalog" element={<BosaCatalog/>}/>
+      </Route>
+    </Routes>
   );
 }
-
-export default App;

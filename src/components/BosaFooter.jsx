@@ -8,13 +8,13 @@ export default function BosaFooter() {
           <section>
             <h5>Информация</h5>
             <ul className="nav flex-column">
-              <li className="nav-item"><a href="/about.html" class="nav-link">О магазине</a></li>
-              <li className="nav-item"><a href="/catalog.html" class="nav-link">Каталог</a></li>
-              <li className="nav-item"><a href="/contacts.html" class="nav-link">Контакты</a></li>
+              <li className="nav-item"><a href="/about.html" className="nav-link">О магазине</a></li>
+              <li className="nav-item"><a href="/catalog.html" className="nav-link">Каталог</a></li>
+              <li className="nav-item"><a href="/contacts.html" className="nav-link">Контакты</a></li>
             </ul>
           </section>
         </div>
-        <div class="col">
+        <div className="col">
           <section>
             <h5>Принимаем к оплате:</h5>
             <div className="footer-pay">
@@ -33,7 +33,7 @@ export default function BosaFooter() {
           </section>
         </div>
         <div className="col text-right">
-          <section class="footer-contacts">
+          <section className="footer-contacts">
             <h5>Контакты:</h5>
             <a className="footer-contacts-phone" href="tel:+7-495-790-35-03">+7 495 79 03 5 03</a>
             <span className="footer-contacts-working-hours">Ежедневно: с 09-00 до 21-00</span>

@@ -1,14 +1,24 @@
 import {
-  fetchCategoriesSuccess,
-  fetchFailure,
-  fetchRequest,
-  fetchTopSalesSuccess,
+  currentCategoriesId,
+  fetchCategoriesFailure,
+  fetchCategoriesRequest,
+  fetchCategoriesSuccess
+} from "./categoriesSlice";
+import {
+  fetchItemsFailure,
+  fetchItemsMoreSuccess,
+  fetchItemsRequest,
   fetchItemsSuccess
-} from "./listSlices";
+} from "./itemsSlice";
+import {
+  fetchTopSalesRequest,
+  fetchTopSalesSuccess,
+  fetchTopSalesFailure
+} from "./topSalesSlice";
 
 export function getTopSales() {
   return async (dispatch) => {
-    dispatch(fetchRequest());
+    dispatch(fetchTopSalesRequest());
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_TOP);
       if (!response.ok) {
@@ -16,17 +26,17 @@ export function getTopSales() {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
+
       dispatch(fetchTopSalesSuccess(data));
     } catch (error) {
-      dispatch(fetchFailure(error));
+      dispatch(fetchTopSalesFailure(error));
     }
   };
 };
 
 export function getCategories() {
   return async (dispatch) => {
-    dispatch(fetchRequest());
+    dispatch(fetchCategoriesRequest());
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_CATEGORIES);
       if (!response.ok) {
@@ -34,28 +44,58 @@ export function getCategories() {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
+
       dispatch(fetchCategoriesSuccess(data));
     } catch (error) {
-      dispatch(fetchFailure(error));
+      dispatch(fetchCategoriesFailure(error));
     }
   };
 };
 
-export function getItems() {
+export function getItems(id) {
   return async (dispatch) => {
-    dispatch(fetchRequest());
+    dispatch(fetchItemsRequest());
+    let url = '';
+    if (id) {
+      url = `?categoryId=${id}`;
+      dispatch(currentCategoriesId(id));
+    } else {
+      dispatch(currentCategoriesId(null));
+    }
+
     try {
-      const response = await fetch(process.env.REACT_APP_URL_API_ITEMS);
+      const response = await fetch(process.env.REACT_APP_URL_API_ITEMS + url);
+
       if (!response.ok) {
-        console.log(response);
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
       dispatch(fetchItemsSuccess(data));
     } catch (error) {
-      dispatch(fetchFailure(error));
+      dispatch(fetchItemsFailure(error));
+    }
+  };
+};
+
+export function getItemsMore(id, offset) {
+  return async (dispatch) => {
+    dispatch(fetchItemsRequest());
+
+    let url = `?offset=${offset}`;
+    if (id) {
+      url = `?categoryId=${id}&offset=${offset}`;
+    }
+
+    try {
+      const response = await fetch(process.env.REACT_APP_URL_API_ITEMS + url);
+
+      if (!response.ok) {
+        throw new Error();
+      }
+      const data = await response.json();
+      dispatch(fetchItemsMoreSuccess(data));
+    } catch (error) {
+      dispatch(fetchItemsFailure(error));
     }
   };
 };

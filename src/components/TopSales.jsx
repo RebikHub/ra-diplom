@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux'
 import ProductCard from './ProductCard';
 
 export default function TopSales() {
-  const { topSales } = useSelector((state) => state.listSlices);
-  console.log(topSales);
+  const { topSales } = useSelector((state) => state.topSalesSlice);
   return (
     <section className="top-sales">
       <h2 className="text-center">Хиты продаж!</h2>

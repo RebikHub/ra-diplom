@@ -1,44 +1,47 @@
-import React from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { getItems } from "../store/middleware";
+import { getCategories, getItems, getItemsMore } from "../store/middleware";
 import Preloader from "./Preloader";
 import ProductCard from "./ProductCard";
 
 export default function Catalog(props) {
-  const { loading, items, categories } = useSelector((state) => state.listSlices);
+  const cat = useSelector((state) => state.categoriesSlice);
+  const { loading, items } = useSelector((state) => state.itemsSlice);
   const dispatch = useDispatch();
-  function handleGetItems(id) {
-    if (id) {
-      return dispatch(getItems(id));
-    }
-    return dispatch(getItems());
-  }
 
+  useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getItems());
+  }, [dispatch])
+
+  console.log(items);
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
       {props.children}
       <ul className="catalog-categories nav justify-content-center">
         <li className="nav-item">
-          <NavLink className="nav-link" to="/catalog">Все</NavLink>
+          <a className={`nav-link ${cat.id === null ? 'active' : ''}`} href="#"
+          onClick={() => dispatch(getItems())}>Все</a>
         </li>
-        {categories.map((el) => (
+        {cat.categories.map((el) => (
           <li className="nav-item" key={el.id}>
-            <NavLink className="nav-link" 
-              onClick={() => handleGetItems(el.id)} to="/catalog">
+            <a className={`nav-link ${cat.id === el.id? 'active' : ''}`} href="#"
+              onClick={() => dispatch(getItems(el.id))} >
               {el.title}
-            </NavLink>
+            </a>
           </li>
         ))}
       </ul>
 
       <div className="row">
-        {loading ? <Preloader/> : items.map((el) => <ProductCard items={el} />)}
+        {loading ? <Preloader/> : items.map((el) => <ProductCard item={el} key={el.id}/>)}
       </div>
 
       <div className="text-center">
-        <button className="btn btn-outline-primary">Загрузить ещё</button>
+        <button className="btn btn-outline-primary"
+          onClick={() => dispatch(getItemsMore(cat.id, items.length))}>Загрузить ещё</button>
       </div>
     </section>
   );

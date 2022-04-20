@@ -8,7 +8,7 @@ import {
   fetchItemsFailure,
   fetchItemsMoreSuccess,
   fetchItemsRequest,
-  fetchItemsSuccess
+  fetchItemsSuccess,
 } from "./itemsSlice";
 import {
   fetchTopSalesRequest,
@@ -88,12 +88,32 @@ export function getItemsMore(id, offset) {
 
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_ITEMS + url);
+      if (!response.ok) {
+        throw new Error();
+      }
+      const data = await response.json();
+      data.map((el) => dispatch(fetchItemsMoreSuccess(el)))
+      // dispatch(fetchItemsMoreSuccess(data));
+    } catch (error) {
+      dispatch(fetchItemsFailure(error));
+    }
+  };
+};
+
+export function getSearch(text) {
+  return async (dispatch) => {
+
+    dispatch(fetchItemsRequest());
+    let url = `?q=${text}`;
+    try {
+      const response = await fetch(process.env.REACT_APP_URL_API_ITEMS + url);
 
       if (!response.ok) {
         throw new Error();
       }
       const data = await response.json();
-      dispatch(fetchItemsMoreSuccess(data));
+      console.log(data);
+      dispatch(fetchItemsSuccess(data));
     } catch (error) {
       dispatch(fetchItemsFailure(error));
     }

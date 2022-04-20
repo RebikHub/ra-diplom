@@ -25,8 +25,10 @@ export const itemsSlice = createSlice({
     fetchItemsMoreSuccess: (state, action) => {
       state.loading = false;
       state.error = null;
-      state.items = [...state.items, ...action.payload];
-    }
+      if (state.items.some((el) => el.id !== action.payload.id)) {
+        state.items = [...state.items, action.payload];
+      }
+    },
   }
 })
 

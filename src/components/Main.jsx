@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTopSales } from "../store/middleware";
+import { getItems, getTopSales } from "../store/middleware";
 import Catalog from "./Catalog";
 import Preloader from "./Preloader";
 import TopSales from "./TopSales";
@@ -12,7 +12,8 @@ export default function Main() {
 
   useEffect(() => {
     dispatch(getTopSales());
-  }, [dispatch])
+    dispatch(getItems());
+  }, [dispatch]);
 
   return (
     <>
@@ -28,5 +29,5 @@ export default function Main() {
         <Preloader/>
       </section> : <Catalog/>}
     </>
-  )
-}
+  );
+};

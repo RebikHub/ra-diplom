@@ -12,8 +12,11 @@ export default function Catalog(props) {
 
   useEffect(() => {
     dispatch(getCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(getItems());
-  }, [dispatch])
+  }, [dispatch]);
 
   console.log(items);
   return (

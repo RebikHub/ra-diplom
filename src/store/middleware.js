@@ -24,7 +24,6 @@ export function getTopSales() {
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_TOP);
       if (!response.ok) {
-        console.log(response);
         throw new Error();
       }
       const data = await response.json();
@@ -42,7 +41,6 @@ export function getCategories() {
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_CATEGORIES);
       if (!response.ok) {
-        console.log(response);
         throw new Error();
       }
       const data = await response.json();
@@ -72,7 +70,6 @@ export function getItems(id) {
         throw new Error();
       }
       const data = await response.json();
-      console.log('get items');
       dispatch(fetchItemsSuccess(data));
     } catch (error) {
       dispatch(fetchItemsFailure(error));
@@ -80,11 +77,12 @@ export function getItems(id) {
   };
 };
 
-export function getItemsMore(id, offset) {
+export function getItemsMore(id, offset, text) {
   return async (dispatch) => {
     dispatch(fetchItemsRequest());
 
     let url = '';
+    
     if (id && offset) {
       url = `?categoryId=${id}&offset=${offset}`;
     } else if (offset) {
@@ -122,7 +120,6 @@ export function getSearch(text) {
         throw new Error();
       }
       const data = await response.json();
-      console.log('get submit');
       dispatch(fetchItemsSuccess(data));
     } catch (error) {
       dispatch(fetchItemsFailure(error));
@@ -140,7 +137,6 @@ export function getOrderItem(id) {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
       dispatch(fetchItemSuccess(data));
     } catch (error) {
       dispatch(fetchItemsFailure(error));

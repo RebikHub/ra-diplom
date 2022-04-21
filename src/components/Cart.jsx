@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import TableCart from "./TableCart";
 
-export default function Basket() {
-  
+export default function Cart() {
+  const [order, setOrder] = useState([]);
+  const { orders } = useSelector((state) => state.cartSlice);
+  console.log(orders);
+
+  useEffect(() => {
+    const local = [];
+      for (let i = 0; i < localStorage.length; i += 1) {
+        const id = localStorage.key(i);
+        local.push(JSON.parse(localStorage.getItem(id)));
+      }
+      setOrder(local);
+  }, [orders.length]);
+
   return (
     <>
       <section className="cart">
         <h2 className="text-center">Корзина</h2>
-
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -19,21 +32,13 @@ export default function Basket() {
               <th scope="col">Действия</th>
             </tr>
           </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td><a href="/products/1.html">Босоножки 'MYER'</a></td>
-                <td>18 US</td>
-                <td>1</td>
-                <td>34 000 руб.</td>
-                <td>34 000 руб.</td>
-                <td><button className="btn btn-outline-danger btn-sm">Удалить</button></td>
-              </tr>
-              <tr>
-                <td colSpan={5} className="text-right">Общая стоимость</td>
-                <td>34 000 руб.</td>
-              </tr>
-            </tbody>
+          <tbody>
+            {order.map((el, i) => <TableCart item={el} i={i} key={i}/>)}
+            <tr>
+              <td colSpan={5} className="text-right">Общая стоимость</td>
+              <td>{order.reduce((a, b) => a + (b.price * b.amount), 0)}</td>
+            </tr>
+          </tbody>
         </table>
       </section>
 

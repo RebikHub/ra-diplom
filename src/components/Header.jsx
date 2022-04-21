@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import headerLogo from '../img/header-logo.png';
@@ -55,9 +55,12 @@ export default function Header() {
               <div>
                 <div className="header-controls-pics">
                   <div data-id="search-expander" onClick={toggleSearch} className="header-controls-pic header-controls-search"></div>
-                  <div className="header-controls-pic header-controls-cart" onClick={() => navigate('/basket')}>
-                    <div className="header-controls-cart-full">1</div>
-                    <div className="header-controls-cart-menu"></div>
+                  <div className="header-controls-pic header-controls-cart" onClick={() => navigate('/cart')}>
+                    {localStorage.length !== 0 ?
+                    <div>
+                      <div className="header-controls-cart-full">{localStorage.length}</div>
+                      <div className="header-controls-cart-menu"></div>
+                    </div> : null}
                   </div>
                 </div>
                 <FormSearch classStyle={`header-controls-search-form ${inputForm}`}/>

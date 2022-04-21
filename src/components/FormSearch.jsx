@@ -10,10 +10,12 @@ export default function FormSearch({classStyle}) {
   let location = useLocation();
   const navigate = useNavigate();
 
-  function submit() {
+  function submit(ev) {
+    ev.preventDefault()
     dispatch(getSearch(search));
     if (location.pathname !== '/catalog') {
       navigate('/catalog');
+      dispatch(clearSearch());
     } else {
       dispatch(clearSearch());
     };

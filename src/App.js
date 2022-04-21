@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import About from "./components/About";
-import Basket from "./components/Basket";
+import Cart from "./components/Cart";
 import Catalog from "./components/Catalog";
 import Contacts from "./components/Contacts";
 import Error from "./components/Error";
@@ -21,7 +21,7 @@ export default function App() {
           </Catalog>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/contacts" element={<Contacts/>}/>
-        <Route path="/basket" element={<Basket/>}/>
+        <Route path="/cart" element={<Cart/>}/>
         <Route path="/catalog/:id" element={<Order/>}/>
         <Route path="*" element={<Error/>}/>
       </Route>

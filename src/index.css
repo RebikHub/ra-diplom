@@ -333,3 +333,7 @@ h2, .h2 {
 .preloader {
   margin-top: 2em;
 }
+
+.catalog-item-size {
+  cursor: pointer;
+}

@@ -19,7 +19,10 @@ export default function Catalog(props) {
     }
   }, []);
 
-  console.log(items);
+  function handleMore() {
+    dispatch(getItemsMore(cat.id, items.length, search))
+  }
+
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
@@ -47,7 +50,7 @@ export default function Catalog(props) {
 
         {empty ? null : <div className="text-center">
           <button className="btn btn-outline-primary"
-            onClick={() => dispatch(getItemsMore(cat.id, items.length))}>Загрузить ещё</button>
+            onClick={handleMore}>Загрузить ещё</button>
         </div>}
       </div>}
     </section>

@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import headerLogo from '../img/header-logo.png';
+import { getSearch } from '../store/middleware';
+import { clearSearch } from '../store/searchSlice';
+import FormSearch from './FormSearch';
 
 export default function Header() {
+  const { search } = useSelector((state) => state.searchSlice);
   const [inputForm, setInputForm] = useState('invisible');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  let location = useLocation();
+
   function toggleSearch() {
-    if (inputForm === '') {
-      setInputForm('invisible');
-    } else {
+    if (inputForm === 'invisible' && search === '') {
       setInputForm('');
+    } else if (inputForm === '' && search === '') {
+      setInputForm('invisible');
+    } else if (inputForm === '' && search !== '') {
+      setInputForm('invisible');
+      navigate('/catalog');
+      dispatch(getSearch(search));
+    } else if (inputForm === '' && search !== '' && location.pathname !== '/catalog') {
+      setInputForm('');
+      dispatch(clearSearch());
     };
   };
 
@@ -40,15 +55,12 @@ export default function Header() {
               <div>
                 <div className="header-controls-pics">
                   <div data-id="search-expander" onClick={toggleSearch} className="header-controls-pic header-controls-search"></div>
-                  {/* Do programmatic navigation on click to /cart.html */}
                   <div className="header-controls-pic header-controls-cart" onClick={() => navigate('/basket')}>
                     <div className="header-controls-cart-full">1</div>
                     <div className="header-controls-cart-menu"></div>
                   </div>
                 </div>
-                <form data-id="search-form" className={`header-controls-search-form form-inline ${inputForm}`}>
-                  <input className="form-control" autoFocus placeholder="Поиск"/>
-                </form>
+                <FormSearch classStyle={`header-controls-search-form ${inputForm}`}/>
               </div>
             </div>
           </nav>

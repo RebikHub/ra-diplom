@@ -6,9 +6,11 @@ import {
 } from "./categoriesSlice";
 import {
   fetchItemsFailure,
+  fetchItemsMoreEmpty,
   fetchItemsMoreSuccess,
   fetchItemsRequest,
   fetchItemsSuccess,
+  fetchItemSuccess,
 } from "./itemsSlice";
 import {
   fetchTopSalesRequest,
@@ -70,6 +72,7 @@ export function getItems(id) {
         throw new Error();
       }
       const data = await response.json();
+      console.log('get items');
       dispatch(fetchItemsSuccess(data));
     } catch (error) {
       dispatch(fetchItemsFailure(error));
@@ -81,9 +84,11 @@ export function getItemsMore(id, offset) {
   return async (dispatch) => {
     dispatch(fetchItemsRequest());
 
-    let url = `?offset=${offset}`;
-    if (id) {
+    let url = '';
+    if (id && offset) {
       url = `?categoryId=${id}&offset=${offset}`;
+    } else if (offset) {
+      url = `?offset=${offset}`;
     }
 
     try {
@@ -92,8 +97,13 @@ export function getItemsMore(id, offset) {
         throw new Error();
       }
       const data = await response.json();
-      data.map((el) => dispatch(fetchItemsMoreSuccess(el)))
-      // dispatch(fetchItemsMoreSuccess(data));
+      
+      if (data.length > 0) {
+        dispatch(fetchItemsMoreSuccess(data));
+      } else {
+        dispatch(fetchItemsMoreEmpty());
+      }
+
     } catch (error) {
       dispatch(fetchItemsFailure(error));
     }
@@ -112,8 +122,26 @@ export function getSearch(text) {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
+      console.log('get submit');
       dispatch(fetchItemsSuccess(data));
+    } catch (error) {
+      dispatch(fetchItemsFailure(error));
+    }
+  };
+};
+
+export function getOrderItem(id) {
+  return async (dispatch) => {
+    dispatch(fetchItemsRequest());
+    try {
+      const response = await fetch(`${process.env.REACT_APP_URL_API_ITEMS}/${id}`);
+
+      if (!response.ok) {
+        throw new Error();
+      }
+      const data = await response.json();
+      console.log(data);
+      dispatch(fetchItemSuccess(data));
     } catch (error) {
       dispatch(fetchItemsFailure(error));
     }

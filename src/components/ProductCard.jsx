@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { getOrderItem } from '../store/middleware';
 
 export default function ProductCard({item}) {
   const dispatch = useDispatch();
@@ -29,9 +30,9 @@ export default function ProductCard({item}) {
         <div className="card-body">
           <p className="card-text">{item.title}</p>
           <p className="card-price">{item.price}</p>
-          <Link to="/order"
+          <Link to={`/catalog/${item.id}`}
             className="btn btn-outline-primary"
-            onClick={() => dispatch()}>Заказать</Link>
+            onClick={() => dispatch(getOrderItem(item.id))}>Заказать</Link>
         </div>
       </div>
     </div>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { addToCart } from '../store/cartSlice';
+import getArrayFromStorage from '../arrayFromStorage';
+import { updateCart } from '../store/cartSlice';
 import { clearCount, decrement, increment } from '../store/countSlice';
 import Preloader from './Preloader';
 
@@ -19,21 +20,35 @@ export default function Order() {
       setSelect(size);
     };
   };
-
+console.log(item);
   function toCartMarket() {
-    localStorage.setItem(item.id, JSON.stringify({
-      id: item.id,
-      title: item.title,
-      size: select,
-      amount: count,
-      price: item.price
-    }));
-    dispatch(addToCart({
-      title: item.title,
-      size: select,
-      amount: count,
-      price: item.price
-    }));
+    let itemStorage = null;
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const id = localStorage.key(i);
+      if (Number(id) === item.id) {
+        itemStorage = JSON.parse(localStorage.getItem(id));
+      }
+    }
+
+    if (itemStorage === null) {
+      localStorage.setItem(item.id, JSON.stringify({
+        id: item.id,
+        title: item.title,
+        size: select,
+        count: count,
+        price: item.price
+      }));
+    } else {
+      localStorage.setItem(item.id, JSON.stringify({
+        id: item.id,
+        title: item.title,
+        size: select,
+        count: itemStorage.count + count,
+        price: item.price
+      }));
+    }
+    const local = getArrayFromStorage();
+    dispatch(updateCart(local));
     dispatch(clearCount());
     navigate('/cart');
   };

@@ -1,3 +1,4 @@
+import { postCartFailure, postCartRequest, postCartSuccess } from "./cartSlice";
 import {
   currentCategoriesId,
   fetchCategoriesFailure,
@@ -140,6 +141,25 @@ export function getOrderItem(id) {
       dispatch(fetchItemSuccess(data));
     } catch (error) {
       dispatch(fetchItemsFailure(error));
+    }
+  };
+};
+
+export function postOrder(item) {
+  return async (dispatch) => {
+    dispatch(postCartRequest());
+    try {
+      const response = await fetch(process.env.REACT_APP_URL_API_ORDER, {
+        method: 'POST',
+        body: JSON.stringify(item)
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      dispatch(postCartSuccess());
+    } catch (error) {
+      dispatch(postCartFailure(error));
     }
   };
 };

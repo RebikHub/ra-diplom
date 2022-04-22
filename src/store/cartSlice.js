@@ -10,14 +10,14 @@ export const cartSlice = createSlice({
     status: false,
   },
   reducers: {
-    addToCart: (state, action) => {
-      state.orders = [...state.orders, action.payload];
-    },
     removeItem: (state, action) => {
       state.orders = state.orders.filter((el) => el.id !== action.payload);
     },
     clearCart: (state, action) => {
       state.orders = [];
+    },
+    updateCart: (state, action) => {
+      state.orders = action.payload;
     },
     postCartRequest: (state, action) => {
       state.loading = true;
@@ -29,15 +29,15 @@ export const cartSlice = createSlice({
     },
     postCartSuccess: (state, action) => {
       state.loading = false;
-      state.status = action.payload;
+      state.status = true;
     },
   }
 })
 
 export const {
-  addToCart,
   removeItem,
   clearCart,
+  updateCart,
   postCartRequest,
   postCartFailure,
   postCartSuccess

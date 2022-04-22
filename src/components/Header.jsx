@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import getArrayFromStorage from '../arrayFromStorage';
 import headerLogo from '../img/header-logo.png';
-import { getSearch } from '../store/middleware';
+import { updateCart } from '../store/cartSlice';
 import { clearSearch } from '../store/searchSlice';
 import FormSearch from './FormSearch';
+import HeaderCart from './HeaderCart';
 
 export default function Header() {
   const { search } = useSelector((state) => state.searchSlice);
@@ -13,18 +16,24 @@ export default function Header() {
   const dispatch = useDispatch();
   let location = useLocation();
 
-  function toggleSearch() {
-    if (inputForm === 'invisible' && search === '') {
-      setInputForm('');
-    } else if (inputForm === '' && search === '') {
+  useEffect(() => {
+    const local =  getArrayFromStorage();
+    dispatch(updateCart(local));
+    if (location.pathname !== '/catalog' && search !== '') {
+      dispatch(clearSearch());
+    } else if (location.pathname === '/catalog') {
       setInputForm('invisible');
-    } else if (inputForm === '' && search !== '') {
+    }
+  }, [dispatch, location.pathname]);
+
+  function toggleSearch() {
+    if (inputForm === 'invisible' && location.pathname !== '/catalog') {
+      setInputForm('');
+    } else if (inputForm === '' && search !== '' && location.pathname !== '/catalog') {
       setInputForm('invisible');
       navigate('/catalog');
-      dispatch(getSearch(search));
-    } else if (inputForm === '' && search !== '' && location.pathname !== '/catalog') {
-      setInputForm('');
-      dispatch(clearSearch());
+    } else if (inputForm === '' && search === '' && location.pathname !== '/catalog') {
+      setInputForm('invisible');
     };
   };
 
@@ -55,13 +64,7 @@ export default function Header() {
               <div>
                 <div className="header-controls-pics">
                   <div data-id="search-expander" onClick={toggleSearch} className="header-controls-pic header-controls-search"></div>
-                  <div className="header-controls-pic header-controls-cart" onClick={() => navigate('/cart')}>
-                    {localStorage.length !== 0 ?
-                    <div>
-                      <div className="header-controls-cart-full">{localStorage.length}</div>
-                      <div className="header-controls-cart-menu"></div>
-                    </div> : null}
-                  </div>
+                  <HeaderCart/>
                 </div>
                 <FormSearch classStyle={`header-controls-search-form ${inputForm}`}/>
               </div>

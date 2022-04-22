@@ -12,11 +12,10 @@ export default function FormSearch({classStyle}) {
 
   function submit(ev) {
     ev.preventDefault()
-    dispatch(getSearch(search));
-    if (location.pathname !== '/catalog') {
+    if (location.pathname !== '/catalog' && search !== '') {
       navigate('/catalog');
-      dispatch(clearSearch());
     } else {
+      dispatch(getSearch(search));
       dispatch(clearSearch());
     };
   };

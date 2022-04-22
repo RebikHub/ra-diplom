@@ -337,3 +337,44 @@ h2, .h2 {
 .catalog-item-size {
   cursor: pointer;
 }
+
+.status {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid grey;
+  width: 30%;
+  height: 110px;
+  background-color: whitesmoke;
+  border-radius: 3px;
+  text-align: center;
+  margin: auto;
+}
+
+.status-text {
+  margin: 20px;
+}
+
+.status-btn {
+  width: inherit;
+  margin: 0 auto;
+  border: 1px solid;
+  border-radius: 2px;
+  background-color: #70809057;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid grey;
+  width: 30%;
+  height: 110px;
+  background-color: #ffa3a3;
+  border-radius: 3px;
+  text-align: center;
+  margin: 55px auto;
+}
+
+.error-text {
+  margin: 40px auto;
+  font-size: x-large;
+}

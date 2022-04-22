@@ -1,12 +1,13 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { removeItem } from '../store/cartSlice';
+import { getOrderItem } from '../store/middleware';
 
 export default function TableCart({item, i}) {
   const dispatch = useDispatch();
 
   function removeOrder(id) {
-    console.log(id);
     localStorage.removeItem(id);
     dispatch(removeItem(id));
   }
@@ -14,11 +15,14 @@ export default function TableCart({item, i}) {
   return (
     <tr>
       <td>{i + 1}</td>
-      <td><a href="/products/1.html">{item.title}</a></td>
+      <td>
+        <Link to={`/catalog/${item.id}`}
+          onClick={() => dispatch(getOrderItem(item.id))}>{item.title}</Link>
+      </td>
       <td>{item.size}</td>
-      <td>{item.amount}</td>
+      <td>{item.count}</td>
       <td>{item.price}</td>
-      <td>{item.amount * item.price}</td>
+      <td>{item.count * item.price}</td>
       <td>
         <button className="btn btn-outline-danger btn-sm"
           onClick={() => removeOrder(item.id)}>Удалить</button>

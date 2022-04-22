@@ -3,12 +3,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories, getItems, getItemsMore } from "../store/middleware";
+import ErrorResponse from "./ErrorResponse";
 import Preloader from "./Preloader";
 import ProductCard from "./ProductCard";
 
 export default function Catalog(props) {
   const cat = useSelector((state) => state.categoriesSlice);
-  const { loading, items, empty } = useSelector((state) => state.itemsSlice);
+  const { loading, items, empty, error } = useSelector((state) => state.itemsSlice);
   const { search } = useSelector((state) => state.searchSlice);
   const dispatch = useDispatch();
 
@@ -16,12 +17,12 @@ export default function Catalog(props) {
     dispatch(getCategories());
     if (search === '') {
       dispatch(getItems());
-    }
+    };
   }, []);
 
   function handleMore() {
-    dispatch(getItemsMore(cat.id, items.length, search))
-  }
+    dispatch(getItemsMore(cat.id, items.length, search));
+  };
 
   return (
     <section className="catalog">
@@ -43,10 +44,10 @@ export default function Catalog(props) {
             </li>
           ))}
         </ul>
-
-        <div className="row">
-          {loading ? <Preloader/> : items.map((el) => <ProductCard item={el} key={el.id}/>)}
-        </div>
+        {error !== null ? 
+          <div className="row">
+            {loading ? <Preloader/> : items.map((el) => <ProductCard item={el} key={el.id}/>)}
+          </div> : <ErrorResponse error={error}/>}
 
         {empty ? null : <div className="text-center">
           <button className="btn btn-outline-primary"

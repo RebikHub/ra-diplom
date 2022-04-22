@@ -4,7 +4,7 @@ import About from "./components/About";
 import Cart from "./components/Cart";
 import Catalog from "./components/Catalog";
 import Contacts from "./components/Contacts";
-import Error from "./components/Error";
+import ErrorPage from "./components/ErrorPage";
 import FormSearch from "./components/FormSearch";
 import HeaderAndFooter from "./components/HeaderAndFooter";
 import Main from "./components/Main";
@@ -23,7 +23,7 @@ export default function App() {
         <Route path="/contacts" element={<Contacts/>}/>
         <Route path="/cart" element={<Cart/>}/>
         <Route path="/catalog/:id" element={<Order/>}/>
-        <Route path="*" element={<Error/>}/>
+        <Route path="*" element={<ErrorPage/>}/>
       </Route>
     </Routes>
   );

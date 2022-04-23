@@ -15,6 +15,7 @@ export const cartSlice = createSlice({
     },
     clearCart: (state, action) => {
       state.orders = [];
+      state.status = false;
     },
     updateCart: (state, action) => {
       state.orders = action.payload;

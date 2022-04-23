@@ -44,7 +44,7 @@ export default function Catalog(props) {
             </li>
           ))}
         </ul>
-        {error !== null ? 
+        {error === null ? 
           <div className="row">
             {loading ? <Preloader/> : items.map((el) => <ProductCard item={el} key={el.id}/>)}
           </div> : <ErrorResponse error={error}/>}

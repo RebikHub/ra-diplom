@@ -12,6 +12,7 @@ import {
   fetchItemsRequest,
   fetchItemsSuccess,
   fetchItemSuccess,
+  responseSearch,
 } from "./itemsSlice";
 import {
   fetchTopSalesRequest,
@@ -123,6 +124,11 @@ export function getSearch(text) {
         throw new Error('Something bad happened');
       };
       const data = await response.json();
+
+      if (data.length === 0) {
+        dispatch(responseSearch());
+      };
+
       dispatch(fetchItemsSuccess(data));
     } catch (error) {
       dispatch(fetchItemsFailure('Что то пошло не так!'));

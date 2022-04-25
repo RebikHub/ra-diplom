@@ -9,6 +9,7 @@ export const searchSlice = createSlice({
   reducers: {
     changeSearch: (state, action) => {
       state.search = action.payload.trim();
+      state.response = false;
     },
     clearSearch: (state, action) => {
       state.search = '';

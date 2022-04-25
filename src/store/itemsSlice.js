@@ -9,12 +9,14 @@ export const itemsSlice = createSlice({
     loading: false,
     error: null,
     empty: false,
+    searchResponse: false
   },
   reducers: {
     fetchItemsRequest: (state, action) => {
       state.loading = true;
       state.error = null;
       state.empty = false;
+      state.searchResponse = false;
     },
     fetchItemsSuccess: (state, action) => {
       state.loading = false;
@@ -41,7 +43,10 @@ export const itemsSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.item = action.payload;
-    }
+    },
+    responseSearch: (state, action) => {
+      state.searchResponse = true;
+    },
   }
 })
 
@@ -51,7 +56,8 @@ export const {
   fetchItemsSuccess,
   fetchItemsMoreSuccess,
   fetchItemsMoreEmpty,
-  fetchItemSuccess
+  fetchItemSuccess,
+  responseSearch
 } = itemsSlice.actions;
 
 export default itemsSlice.reducer;

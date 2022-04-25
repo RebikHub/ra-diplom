@@ -23,7 +23,7 @@ export default function Header() {
       dispatch(clearSearch());
     } else if (location.pathname === '/catalog') {
       setInputForm('invisible');
-    }
+    };
   }, [dispatch, location.pathname]);
 
   function toggleSearch() {

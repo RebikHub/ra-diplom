@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import getArrayFromStorage from '../arrayFromStorage';
 import { updateCart } from '../store/cartSlice';
 import { clearCount, decrement, increment } from '../store/countSlice';
+import { getOrderItem } from '../store/middleware';
+import ErrorResponse from './ErrorResponse';
 import Preloader from './Preloader';
 
 export default function Order() {
-  const { item, loading } = useSelector((state) => state.itemsSlice);
+  const { item, loading, error } = useSelector((state) => state.itemsSlice);
   const { count } = useSelector((state) => state.countSlice);
   const [select, setSelect] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
 
   function checkSelected(size) {
     if (select === size) {
@@ -20,15 +23,15 @@ export default function Order() {
       setSelect(size);
     };
   };
-console.log(item);
+
   function toCartMarket() {
     let itemStorage = null;
     for (let i = 0; i < localStorage.length; i += 1) {
       const id = localStorage.key(i);
       if (Number(id) === item.id) {
         itemStorage = JSON.parse(localStorage.getItem(id));
-      }
-    }
+      };
+    };
 
     if (itemStorage === null) {
       localStorage.setItem(item.id, JSON.stringify({
@@ -46,11 +49,15 @@ console.log(item);
         count: itemStorage.count + count,
         price: item.price
       }));
-    }
+    };
     const local = getArrayFromStorage();
     dispatch(updateCart(local));
     dispatch(clearCount());
     navigate('/cart');
+  };
+
+  if (error) {
+    return <ErrorResponse error={error} handleError={() => dispatch(getOrderItem(params.id))}/>
   };
 
   if (loading) {

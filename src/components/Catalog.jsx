@@ -14,11 +14,15 @@ export default function Catalog(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    getCategoriesAndItems();
+  }, []);
+
+  function getCategoriesAndItems() {
     dispatch(getCategories());
     if (search === '') {
       dispatch(getItems());
     };
-  }, []);
+  };
 
   function handleMore() {
     dispatch(getItemsMore(cat.id, items.length, search));
@@ -29,7 +33,12 @@ export default function Catalog(props) {
       <h2 className="text-center">Каталог</h2>
       {props.children}
       {cat.loading ? <Preloader/> :
-      <div>
+
+      cat.error && error ?
+        <ErrorResponse error={cat.error} handleError={getCategoriesAndItems}/> :
+        <div>
+      {cat.error === null ? 
+
         <ul className="catalog-categories nav justify-content-center">
           <li className="nav-item">
             <a className={`nav-link ${cat.id === null ? 'active' : ''}`} href="#"
@@ -44,16 +53,20 @@ export default function Catalog(props) {
             </li>
           ))}
         </ul>
+        : <ErrorResponse error={cat.error} handleError={() => dispatch(getCategories())}/>}
+
         {error === null ? 
           <div className="row">
             {loading ? <Preloader/> : items.map((el) => <ProductCard item={el} key={el.id}/>)}
-          </div> : <ErrorResponse error={error}/>}
+          </div> : <ErrorResponse error={error} handleError={() => dispatch(getItems())}/>}
 
         {empty ? null : <div className="text-center">
           <button className="btn btn-outline-primary"
             onClick={handleMore}>Загрузить ещё</button>
         </div>}
+
       </div>}
+
     </section>
   );
 };

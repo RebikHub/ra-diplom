@@ -29,7 +29,7 @@ export const itemsSlice = createSlice({
       state.loading = false;
       state.error = null;
       const res = [];
-      action.payload.map((e) => !state.items.some((el) => e.id === el.id) ? res.push(e) : e)
+      action.payload.map((e) => !state.items.some((el) => e.id === el.id) ? res.push(e) : e);
       state.items = [...state.items, ...res];
     },
     fetchItemsMoreEmpty: (state, action) => {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postOrder } from '../store/middleware';
+import ErrorResponse from './ErrorResponse';
 import Preloader from './Preloader';
 import StatusOrder from './StatusOrder';
 
@@ -31,9 +32,13 @@ export default function Checkout() {
     });
   }
 
+  if (error) {
+    return <ErrorResponse error={error} handleError={submit}/>
+  };
+
   if (status) {
     return <StatusOrder/>
-  }
+  };
 
   if (loading) {
     return <Preloader/>

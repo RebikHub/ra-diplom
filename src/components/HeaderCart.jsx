@@ -23,5 +23,5 @@ export default function HeaderCart() {
         <div className="header-controls-cart-menu"></div>
       </div> : null}
     </div>
-  )
-}
+  );
+};

@@ -25,14 +25,16 @@ export function getTopSales() {
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_TOP);
       if (!response.ok) {
-        throw new Error();
+        console.log(response);
+        throw new Error('Something bad happened');
       }
       const data = await response.json();
 
       dispatch(fetchTopSalesSuccess(data));
     } catch (error) {
-      dispatch(fetchTopSalesFailure(error));
-    }
+      console.log(error.message);
+      dispatch(fetchTopSalesFailure('Что то пошло не так!'));
+    };
   };
 };
 
@@ -42,14 +44,14 @@ export function getCategories() {
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_CATEGORIES);
       if (!response.ok) {
-        throw new Error();
-      }
+        throw new Error('Something bad happened');
+      };
       const data = await response.json();
 
       dispatch(fetchCategoriesSuccess(data));
     } catch (error) {
-      dispatch(fetchCategoriesFailure(error));
-    }
+      dispatch(fetchCategoriesFailure('Что то пошло не так!'));
+    };
   };
 };
 
@@ -62,19 +64,19 @@ export function getItems(id) {
       dispatch(currentCategoriesId(id));
     } else {
       dispatch(currentCategoriesId(null));
-    }
+    };
 
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_ITEMS + url);
 
       if (!response.ok) {
-        throw new Error();
-      }
+        throw new Error('Something bad happened');
+      };
       const data = await response.json();
       dispatch(fetchItemsSuccess(data));
     } catch (error) {
-      dispatch(fetchItemsFailure(error));
-    }
+      dispatch(fetchItemsFailure('Что то пошло не так!'));
+    };
   };
 };
 
@@ -88,24 +90,24 @@ export function getItemsMore(id, offset, text) {
       url = `?categoryId=${id}&offset=${offset}`;
     } else if (offset) {
       url = `?offset=${offset}`;
-    }
+    };
 
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_ITEMS + url);
       if (!response.ok) {
-        throw new Error();
-      }
+        throw new Error('Something bad happened');
+      };
       const data = await response.json();
       
       if (data.length > 0) {
         dispatch(fetchItemsMoreSuccess(data));
       } else {
         dispatch(fetchItemsMoreEmpty());
-      }
+      };
 
     } catch (error) {
-      dispatch(fetchItemsFailure(error));
-    }
+      dispatch(fetchItemsFailure('Что то пошло не так!'));
+    };
   };
 };
 
@@ -118,13 +120,13 @@ export function getSearch(text) {
       const response = await fetch(process.env.REACT_APP_URL_API_ITEMS + url);
 
       if (!response.ok) {
-        throw new Error();
-      }
+        throw new Error('Something bad happened');
+      };
       const data = await response.json();
       dispatch(fetchItemsSuccess(data));
     } catch (error) {
-      dispatch(fetchItemsFailure(error));
-    }
+      dispatch(fetchItemsFailure('Что то пошло не так!'));
+    };
   };
 };
 
@@ -135,13 +137,13 @@ export function getOrderItem(id) {
       const response = await fetch(`${process.env.REACT_APP_URL_API_ITEMS}/${id}`);
 
       if (!response.ok) {
-        throw new Error();
-      }
+        throw new Error('Something bad happened');
+      };
       const data = await response.json();
       dispatch(fetchItemSuccess(data));
     } catch (error) {
-      dispatch(fetchItemsFailure(error));
-    }
+      dispatch(fetchItemsFailure('Что то пошло не так!'));
+    };
   };
 };
 
@@ -155,11 +157,11 @@ export function postOrder(item) {
       });
 
       if (!response.ok) {
-        throw new Error(response.statusText);
-      }
+        throw new Error('Something bad happened');
+      };
       dispatch(postCartSuccess());
     } catch (error) {
-      dispatch(postCartFailure(error));
-    }
+      dispatch(postCartFailure('Что то пошло не так!'));
+    };
   };
 };

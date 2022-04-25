@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import banner from '../img/banner.jpg';
-import BosaFooter from './Footer'
-import BosaHeader from './Header'
+import BosaFooter from './Footer';
+import BosaHeader from './Header';
 
 export default function HeaderAndFooter() {
   return (

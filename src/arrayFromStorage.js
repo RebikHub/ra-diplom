@@ -5,7 +5,6 @@ export default function getArrayFromStorage() {
       const id = localStorage.key(i);
       local.push(JSON.parse(localStorage.getItem(id)));
     }
-    console.log(local);
     return local;
   }
   return [];

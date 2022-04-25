@@ -10,7 +10,7 @@ export default function TableCart({item, i}) {
   function removeOrder(id) {
     localStorage.removeItem(id);
     dispatch(removeItem(id));
-  }
+  };
 
   return (
     <tr>
@@ -28,5 +28,5 @@ export default function TableCart({item, i}) {
           onClick={() => removeOrder(item.id)}>Удалить</button>
       </td>
     </tr>
-  )
-}
+  );
+};

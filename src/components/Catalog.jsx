@@ -67,8 +67,8 @@ export default function Catalog(props) {
 
         {error === null ? 
           <div className="row">
-            {searchResponse && <ResponseSearch/>}
-            {loading ? <Preloader/> : items.map((el) => <ProductCard item={el} key={el.id}/>)}
+            {searchResponse ? <ResponseSearch/> :
+            loading ? <Preloader/> : items.map((el) => <ProductCard item={el} key={el.id}/>)}
           </div> : <ErrorResponse error={error} handleError={() => dispatch(getItems())}/>}
 
         {empty ? null : <div className="text-center">

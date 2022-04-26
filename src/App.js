@@ -13,16 +13,16 @@ import Order from "./components/Order";
 export default function App() {
   return (
     <Routes>
-      <Route path="/ra-diplom/" element={<HeaderAndFooter/>}>
+      <Route path="/" element={<HeaderAndFooter/>}>
         <Route index element={<Main/>}/>
-        <Route path="/ra-diplom/catalog" element={
+        <Route path="/catalog" element={
           <Catalog>
             <FormSearch/>
           </Catalog>}/>
-        <Route path="/ra-diplom/about" element={<About/>}/>
-        <Route path="/ra-diplom/contacts" element={<Contacts/>}/>
-        <Route path="/ra-diplom/cart" element={<Cart/>}/>
-        <Route path="/ra-diplom/catalog/:id" element={<Order/>}/>
+        <Route path="/about" element={<About/>}/>
+        <Route path="/contacts" element={<Contacts/>}/>
+        <Route path="/cart" element={<Cart/>}/>
+        <Route path="/catalog/:id" element={<Order/>}/>
         <Route path="*" element={<ErrorPage/>}/>
       </Route>
     </Routes>

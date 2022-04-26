@@ -19,7 +19,11 @@ export default function Catalog(props) {
   }, []);
 
   function getCategoriesAndItems() {
-    dispatch(getCategories());
+
+    if (cat.categories.length === 0) {
+      dispatch(getCategories());
+    };
+
     if (search === '') {
       dispatch(getItems());
     };

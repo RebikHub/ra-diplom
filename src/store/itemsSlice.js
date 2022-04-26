@@ -46,6 +46,7 @@ export const itemsSlice = createSlice({
     },
     responseSearch: (state, action) => {
       state.searchResponse = true;
+      state.loading = false;
     },
   }
 })

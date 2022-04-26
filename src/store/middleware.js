@@ -127,9 +127,10 @@ export function getSearch(text) {
 
       if (data.length === 0) {
         dispatch(responseSearch());
+      } else {
+        dispatch(fetchItemsSuccess(data));
       };
 
-      dispatch(fetchItemsSuccess(data));
     } catch (error) {
       dispatch(fetchItemsFailure('Что то пошло не так!'));
     };

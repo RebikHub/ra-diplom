@@ -14,6 +14,8 @@ export default function FormSearch({classStyle}) {
     ev.preventDefault()
     if (location.pathname !== '/catalog' && search !== '') {
       navigate('/catalog');
+      dispatch(getSearch(search));
+      dispatch(clearSearch());
     } else {
       dispatch(getSearch(search));
       dispatch(clearSearch());

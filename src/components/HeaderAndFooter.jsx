@@ -1,13 +1,13 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import banner from '../img/banner.jpg';
-import BosaFooter from './Footer';
-import BosaHeader from './Header';
+import Footer from './Footer';
+import Header from './Header';
 
 export default function HeaderAndFooter() {
   return (
     <>
-      <BosaHeader/>
+      <Header/>
         <main className="container">
           <div className="row">
             <div className="col">
@@ -19,7 +19,7 @@ export default function HeaderAndFooter() {
             </div>
           </div>
         </main>
-      <BosaFooter/>
+      <Footer/>
     </>
   )
 }

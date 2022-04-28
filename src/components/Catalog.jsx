@@ -2,7 +2,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories, getItems, getItemsMore } from "../store/middleware";
+import { getCategories, getItems, getItemsMore, getSearch } from "../store/middleware";
+import { clearSearch } from "../store/searchSlice";
 import ErrorResponse from "./ErrorResponse";
 import Preloader from "./Preloader";
 import ProductCard from "./ProductCard";
@@ -26,6 +27,11 @@ export default function Catalog(props) {
 
     if (search === '') {
       dispatch(getItems());
+    };
+
+    if (search !== '') {
+      dispatch(getSearch(search));
+      dispatch(clearSearch());
     };
   };
 

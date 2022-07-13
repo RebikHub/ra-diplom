@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postOrder } from '../store/middleware';
 import ErrorResponse from './ErrorResponse';
@@ -11,6 +12,7 @@ export default function Checkout() {
     phone: '',
     address: ''
   });
+  const [errorOrder, setErrorOrder] = useState(false);
   const dispatch = useDispatch();
 
   function inputPhone(ev) {
@@ -22,18 +24,30 @@ export default function Checkout() {
   };
 
   function submit() {
-    dispatch(postOrder({
-      owner: input,
-      items: orders
-    }));
-    setInput({
-      phone: '',
-      address: ''
-    });
+    if (input.address !== '' && input.phone !== '' && orders.length !== 0) {
+      dispatch(postOrder({
+        owner: input,
+        items: orders
+      }));
+      setInput({
+        phone: '',
+        address: ''
+      });
+    } else {
+      setErrorOrder(true);
+    }
   }
 
-  if (error) {
-    return <ErrorResponse error={error} handleError={submit}/>
+  useEffect(() => {
+    if (errorOrder) {
+      setTimeout(() => setErrorOrder(false), 3 * 1000);
+    }
+  }, [errorOrder])
+
+  if (error || errorOrder) {
+    return <ErrorResponse
+      error={error ? error : orders.length === 0 ? 'Добавьте товар в карзину!' : 'Заполните все поля!'}
+      handleError={submit}/>
   };
 
   if (status) {
